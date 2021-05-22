@@ -13,6 +13,12 @@ RUN chmod 755 /bin/init_container.sh \
     && ln -s /home/site/wwwroot /var/www/html \
     && mkdir -p /opt/startup
 
+# Install system dependencies
+RUN apt-get update && apt-get install -yqq cron supervisor
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # configure startup
 COPY sshd_config /etc/ssh/
 COPY ssh_setup.sh /tmp
